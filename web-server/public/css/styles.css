@@ -40,3 +40,7 @@ header a {
 .portrait {
     width: 250px;
 }
+
+#forecast {
+    margin: 20px 0;
+}
