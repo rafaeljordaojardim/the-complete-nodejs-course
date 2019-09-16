@@ -1,3 +1,12 @@
+// const webForm = document.querySelector('form')
+// const search = document.querySelector('input')
+// webForm.addEventListener('submit', (event) => {
+//     event.preventDefault();
+//     const location = search.value
+//     console.log(location);
+    
+// })
+
 
 const button = document.querySelector('#searchLocation')
 const input = document.querySelector('#inputLocation')
@@ -5,7 +14,7 @@ const answer = document.querySelector('#forecast')
 button.onclick = (event) => {
     event.preventDefault()
     if (input.value) {
-        const address = 'brasil'
+        const address = input.value
         const url = `http://localhost:3000/weather?address=${address}`;
         fetch(url).then((response) => {
             response.json().then((data) => {
@@ -28,6 +37,11 @@ button.onclick = (event) => {
         answer.innerHTML = "Put a location"
     }
 }
+
+
+
+
+
 
 
 //calling a fetch 
