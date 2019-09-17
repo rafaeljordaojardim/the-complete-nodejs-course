@@ -13,7 +13,6 @@ const input = document.querySelector('#inputLocation');
 const answer = document.querySelector('#forecast');
 const img = document.createElement('img');
 img.setAttribute('src', '../img/loading.gif');
-
 button.onclick = (event) => {
     answer.innerHTML = ""
     answer.appendChild(img)
@@ -21,8 +20,6 @@ button.onclick = (event) => {
     if (input.value) {
         const address = input.value
         const url = `http://localhost:3000/weather?address=${address}`;
-        const img = document.createElement('img')
-        img.setAttribute('src', '')
         answer.appendChild(img)
         fetch(url).then((response) => {
             response.json().then((data) => {
@@ -32,7 +29,7 @@ button.onclick = (event) => {
             }else {
                 answer.removeChild(img)
                 answer.innerHTML = ""
-                const {location, probality, summary,temperature} = data
+                const {location, probality, summary,temperature } = data
                 answer.innerHTML = `<br>Location: ${location}<br>
                                     Probality to rain: ${probality}%<br>
                                     Summary: ${summary}<br>
