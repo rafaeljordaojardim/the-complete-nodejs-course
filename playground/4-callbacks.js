@@ -1,3 +1,25 @@
+const doWorkCallback = (callback) => {
+    setTimeout(() => {
+        // callback('This is my error', undefined);
+        callback(undefined, [1,4,7])
+    }, 2000)
+}
+
+
+doWorkCallback((error, result) => {
+    if (error) {
+        return console.log(error);
+        
+    }
+        console.log(result);
+})
+
+
+
+
+
+
+
 // setTimeout(() => {
 //     console.log('Two segundos');
 // }, 2000)
@@ -34,15 +56,15 @@
 // 4. Test your work!
 
 
-const add = (num1, num2, callback) => { 
-    setTimeout(() => {
-        const soma = num1 + num2;
-        callback(soma)
-    }, 2000)
-}
+// const add = (num1, num2, callback) => { 
+//     setTimeout(() => {
+//         const soma = num1 + num2;
+//         callback(soma)
+//     }, 2000)
+// }
 
 
-add(1, 4, (sum) => {
-    console.log(sum) // Should print: 5
-})
+// add(1, 4, (sum) => {
+//     console.log(sum) // Should print: 5
+// })
 
