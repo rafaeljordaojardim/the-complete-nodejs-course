@@ -19,7 +19,7 @@ button.onclick = (event) => {
     event.preventDefault()
     if (input.value) {
         const address = input.value
-        const url = `http://localhost:3000/weather?address=${address}`;
+        const url = `http://localhost:3001/weather?address=${address}`;
         answer.appendChild(img)
         fetch(url).then((response) => {
             response.json().then((data) => {
