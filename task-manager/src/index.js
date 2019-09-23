@@ -2,8 +2,8 @@ const express = require('express');
 
 require('./db/mongoose'); // loading mongoose to connect to the database
 //importing models
-const User = require('./models/user')
-const Task = require('./models/task')
+// const User = require('./models/user')
+// const Task = require('./models/task')
 //importing routes
 const userRouter = require('./routers/user')
 const taskRouter = require('./routers/task')
@@ -36,17 +36,16 @@ app.listen(port, () => {
     console.log(`Server is up on port ${port}`);
 })
 
-// const jwt = require('jsonwebtoken')
-
-
-// const myFunction = async () => {
-//     const token =  jwt.sign({_id:'abc123'}, 'thisismynewcourse', {expiresIn: '7 days'})  
-//     console.log(token);
-    
-
-//     const data = jwt.verify(token, 'thisismynewcourse')
-//     console.log(data);
+// const Task = require('./models/task')
+// const User = require('./models/user')
+// const main = async () => {
+//     // const task = await Task.findById('5d88ebf29568f3381661a45f');
+//     // await task.populate('owner').execPopulate()
+//     // console.log(task.owner);
+//     const user = await User.findById('5d88da5caacbe833e49f525b');
+//     await user.populate('tasks').execPopulate()
+//     console.log(user.tasks);
     
 // }
 
-// myFunction()
+// main()

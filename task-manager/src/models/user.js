@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const Task = require('../models/task')
 
 
 
@@ -52,6 +53,13 @@ const userSchema = new mongoose.Schema( {
     }]
 })
 
+userSchema.virtual('tasks', {
+    ref:'Task',
+    localField: '_id',
+    foreignField: 'owner'
+})
+
+
 //its acessable on the instances
 userSchema.methods.generateAuthToken = async function () {
     const user = this//this is the user in this moment
@@ -59,6 +67,14 @@ userSchema.methods.generateAuthToken = async function () {
     user.tokens = user.tokens.concat({token})
     await user.save()
     return token
+}
+
+userSchema.methods.toJSON = function () {
+    const user = this
+    const userObject = user.toObject()
+    delete userObject.password
+    delete userObject.tokens
+    return userObject
 }
 
 
@@ -102,6 +118,12 @@ userSchema.pre('save', async function (next) {
     next()
 })
 
+//Delete user tasks when user is removed
+userSchema.pre('remove', async function (next) {
+    const user = this
+    await Task.deleteMany({owner:user._id})
+    next()
+})
 const User = mongoose.model('User', userSchema)
 
 //exporting to other modules access it

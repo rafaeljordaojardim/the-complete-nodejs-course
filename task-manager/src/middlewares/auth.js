@@ -13,7 +13,7 @@ const auth = async(req, res, next) => {
            throw new Error()
        }
        req.token = token //to log out after
-       req.user = user  
+       req.user = user  //to access in the req
        next()
    } catch (e) {
        res.status(401).send({error: 'Please authenticate.'})
