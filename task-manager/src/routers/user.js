@@ -1,6 +1,6 @@
 const express = require('express')
 const User = require('../models/user')
-const auth = require('../middleware/auth')//middleware authentication
+const auth = require('../middlewares/auth')//middleware authentication
 const router = new express.Router()
 
 //CREATE USER ROTE
@@ -31,13 +31,27 @@ router.post('/users/login', async (req, res) => {
     }
 })
 
+// to log out
+router.post('/users/logout', auth, async (req, res) => {
+    try {
+        req.user.tokens = req.user.tokens.filter((token) => {
+            token.token !== req.token
+        })
+        await req.user.save()
+
+        res.send()
+    } catch (e) {
+        res.status(500).send()
+    }
+})
+
 //GET USERS
 router.get('/users/me', auth ,async (req, res) => {
     res.send(req.user)
  })
  
 //GET A USER BY ID
-router.get('/users/:id', async (req, res) => {
+router.get('/users/:id', auth , async (req, res) => {
     const _id = req.params.id
     try {
        const user = await User.findById(_id)
@@ -51,7 +65,7 @@ router.get('/users/:id', async (req, res) => {
 })
 
 //TO UPDATE
-router.patch('/users/:id', async (req, res) => {
+router.patch('/users/:id', auth, async (req, res) => {
     const updates = Object.keys(req.body)
     const allowedUpdates = ['name', 'email', 'password', 'age']
     const isValidOperation = updates.every((update) => {
@@ -78,7 +92,7 @@ router.patch('/users/:id', async (req, res) => {
 })
 
 //DELETE A USER
-router.delete('/users/:id', async (req, res) => {
+router.delete('/users/:id', auth, async (req, res) => {
     const _id = req.params.id
     try {
         const user = await User.findByIdAndDelete(_id)
