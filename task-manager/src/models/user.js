@@ -4,8 +4,6 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const Task = require('../models/task')
 
-
-
 const userSchema = new mongoose.Schema( {
     name: {
         type: String,
@@ -50,7 +48,10 @@ const userSchema = new mongoose.Schema( {
             type: String,
             required: true
         }
-    }]
+    }],
+    avatar:{
+        type: Buffer
+    }
 },  {
     timestamps:true
 
@@ -66,7 +67,7 @@ userSchema.virtual('tasks', {
 //its acessable on the instances
 userSchema.methods.generateAuthToken = async function () {
     const user = this//this is the user in this moment
-    const token = jwt.sign({_id: user._id}, 'thisismynewcourse')
+    const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET)
     user.tokens = user.tokens.concat({token})
     await user.save()
     return token
@@ -77,11 +78,9 @@ userSchema.methods.toJSON = function () {
     const userObject = user.toObject()
     delete userObject.password
     delete userObject.tokens
+    delete userObject.avatar
     return userObject
 }
-
-
-
 //statics because its statics
 //accessable on the models
 // userSchema.statics.validateUnique = async (email) => {
@@ -108,8 +107,6 @@ userSchema.statics.findByCredentials = async (email, password) => {
     }
     return user
 }
-
-
 
 //hash the plain text password before saving
 userSchema.pre('save', async function (next) {
