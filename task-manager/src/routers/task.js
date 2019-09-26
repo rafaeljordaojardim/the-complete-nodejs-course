@@ -45,7 +45,7 @@ router.get('/tasks', auth, async (req, res) => {
                 sort
             }
         }).execPopulate()
-        res.send(req.user.tasks)
+       return res.send(req.user.tasks)
     } catch (e) {
         res.status(500).send(e)
     }
@@ -59,9 +59,9 @@ router.get('/tasks/:id', auth, async (req, res) => {
         if (!task) {
             return res.status(404).send()
         }
-        res.send(task)
+       return res.send(task)
     } catch (e) {
-        res.status(500).send()
+       return res.status(500).send()
     }
 })
 
@@ -85,7 +85,7 @@ router.patch('/tasks/:id', auth, async (req, res) => {
         }
         updates.forEach(update => {task[update] = req.body[update]})
         await task.save()
-        res.send(task)    
+       return res.send(task)    
     } catch (e) {
         res.status(400).send(e)
     }
@@ -97,9 +97,9 @@ router.delete('/tasks/:id', auth, async (req, res) => {
     try {
         const task = await Task.findOneAndDelete({_id, owner:req.user._id});
         if(!task) {
-            res.status(404).send()
+          return res.status(404).send()
         }
-        res.send(task)
+       return res.send(task)
     } catch (e) {
         res.status(500).send(e)
     }
